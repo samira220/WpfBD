@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище OAIPBDModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Books">
+          <Key>
+            <PropertyRef Name="ID_Book" />
+          </Key>
+          <Property Name="ID_Book" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name_book" Type="nvarchar" MaxLength="100" />
+          <Property Name="In_stock" Type="bit" />
+          <Property Name="Release_date" Type="date" />
+          <Property Name="ID_category" Type="int" />
+        </EntityType>
+        <EntityType Name="Log_Us">
+          <Key>
+            <PropertyRef Name="ID_Pass_Log" />
+          </Key>
+          <Property Name="ID_Pass_Log" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID_User" />
+          </Key>
+          <Property Name="ID_User" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FName" Type="nchar" MaxLength="25" />
+          <Property Name="Name" Type="nchar" MaxLength="25" />
+          <Property Name="ID_Pass_Log" Type="int" Nullable="false" />
+          <Property Name="Photo" Type="image" />
+          <Property Name="ID_Book" Type="int" />
+        </EntityType>
+        <EntityType Name="Сategory">
+          <Key>
+            <PropertyRef Name="ID_category" />
+          </Key>
+          <Property Name="ID_category" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name_category" Type="nvarchar" MaxLength="25" />
+        </EntityType>
+        <Association Name="FK_Books_Сategory">
+          <End Role="Сategory" Type="Self.Сategory" Multiplicity="0..1" />
+          <End Role="Books" Type="Self.Books" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сategory">
+              <PropertyRef Name="ID_category" />
+            </Principal>
+            <Dependent Role="Books">
+              <PropertyRef Name="ID_category" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Books">
+          <End Role="Books" Type="Self.Books" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="ID_Book" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="ID_Book" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Log_Us">
+          <End Role="Log_Us" Type="Self.Log_Us" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Log_Us">
+              <PropertyRef Name="ID_Pass_Log" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="ID_Pass_Log" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище OAIPBDModelContainer">
+          <EntitySet Name="Books" EntityType="Self.Books" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log_Us" EntityType="Self.Log_Us" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Сategory" EntityType="Self.Сategory" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Books_Сategory" Association="Self.FK_Books_Сategory">
+            <End Role="Сategory" EntitySet="Сategory" />
+            <End Role="Books" EntitySet="Books" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Books" Association="Self.FK_User_Books">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Log_Us" Association="Self.FK_User_Log_Us">
+            <End Role="Log_Us" EntitySet="Log_Us" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OAIPBDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Books">
+          <Key>
+            <PropertyRef Name="ID_Book" />
+          </Key>
+          <Property Name="ID_Book" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name_book" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="In_stock" Type="Boolean" />
+          <Property Name="Release_date" Type="DateTime" Precision="0" />
+          <Property Name="ID_category" Type="Int32" />
+          <NavigationProperty Name="Сategory" Relationship="Self.FK_Books_Сategory" FromRole="Books" ToRole="Сategory" />
+          <NavigationProperty Name="User" Relationship="Self.FK_User_Books" FromRole="Books" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Log_Us">
+          <Key>
+            <PropertyRef Name="ID_Pass_Log" />
+          </Key>
+          <Property Name="ID_Pass_Log" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="Self.FK_User_Log_Us" FromRole="Log_Us" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID_User" />
+          </Key>
+          <Property Name="ID_User" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FName" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="ID_Pass_Log" Type="Int32" Nullable="false" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ID_Book" Type="Int32" />
+          <NavigationProperty Name="Books" Relationship="Self.FK_User_Books" FromRole="User" ToRole="Books" />
+          <NavigationProperty Name="Log_Us" Relationship="Self.FK_User_Log_Us" FromRole="User" ToRole="Log_Us" />
+        </EntityType>
+        <EntityType Name="Сategory">
+          <Key>
+            <PropertyRef Name="ID_category" />
+          </Key>
+          <Property Name="ID_category" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name_category" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Books" Relationship="Self.FK_Books_Сategory" FromRole="Сategory" ToRole="Books" />
+        </EntityType>
+        <Association Name="FK_Books_Сategory">
+          <End Role="Сategory" Type="Self.Сategory" Multiplicity="0..1" />
+          <End Role="Books" Type="Self.Books" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сategory">
+              <PropertyRef Name="ID_category" />
+            </Principal>
+            <Dependent Role="Books">
+              <PropertyRef Name="ID_category" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Books">
+          <End Role="Books" Type="Self.Books" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="ID_Book" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="ID_Book" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Log_Us">
+          <End Role="Log_Us" Type="Self.Log_Us" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Log_Us">
+              <PropertyRef Name="ID_Pass_Log" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="ID_Pass_Log" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OAIPBDEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Books" EntityType="Self.Books" />
+          <EntitySet Name="Log_Us" EntityType="Self.Log_Us" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <EntitySet Name="Сategory" EntityType="Self.Сategory" />
+          <AssociationSet Name="FK_Books_Сategory" Association="Self.FK_Books_Сategory">
+            <End Role="Сategory" EntitySet="Сategory" />
+            <End Role="Books" EntitySet="Books" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Books" Association="Self.FK_User_Books">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Log_Us" Association="Self.FK_User_Log_Us">
+            <End Role="Log_Us" EntitySet="Log_Us" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище OAIPBDModelContainer" CdmEntityContainer="OAIPBDEntities1">
+          <EntitySetMapping Name="Books">
+            <EntityTypeMapping TypeName="OAIPBDModel.Books">
+              <MappingFragment StoreEntitySet="Books">
+                <ScalarProperty Name="ID_Book" ColumnName="ID_Book" />
+                <ScalarProperty Name="Name_book" ColumnName="Name_book" />
+                <ScalarProperty Name="In_stock" ColumnName="In_stock" />
+                <ScalarProperty Name="Release_date" ColumnName="Release_date" />
+                <ScalarProperty Name="ID_category" ColumnName="ID_category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log_Us">
+            <EntityTypeMapping TypeName="OAIPBDModel.Log_Us">
+              <MappingFragment StoreEntitySet="Log_Us">
+                <ScalarProperty Name="ID_Pass_Log" ColumnName="ID_Pass_Log" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="OAIPBDModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="ID_User" ColumnName="ID_User" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID_Pass_Log" ColumnName="ID_Pass_Log" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="ID_Book" ColumnName="ID_Book" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Сategory">
+            <EntityTypeMapping TypeName="OAIPBDModel.Сategory">
+              <MappingFragment StoreEntitySet="Сategory">
+                <ScalarProperty Name="ID_category" ColumnName="ID_category" />
+                <ScalarProperty Name="Name_category" ColumnName="Name_category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

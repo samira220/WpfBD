@@ -1,0 +1,40 @@
+﻿<Page x:Class="WpfBD.Pages.BooksPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfBD.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="BooksPage">
+
+    <Grid  Background="LightPink">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer Grid.Column="1" Grid.Row="1" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto">
+            <StackPanel>
+                <ListView x:Name="LvFilm" Width="500" Background="Cyan">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Id" DisplayMemberBinding="{Binding ID_Book}" Width="auto"/>
+                            <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Name_book}" Width="auto"/>
+                            <GridViewColumn Header="Дата выпуска" DisplayMemberBinding="{Binding Release_date}" Width="auto"/>
+                            <GridViewColumn Header="Номер категории" DisplayMemberBinding="{Binding ID_category}" Width="auto"/>
+                            <GridViewColumn Header="Наличие" DisplayMemberBinding="{Binding In_stock}" Width="auto"/>
+
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>
+        </ScrollViewer>
+        <Button x:Name="Back" Content="Назад" Click="Back_Click" Background="LightBlue" Grid.Column="1" Margin="116,17,165,17" Grid.Row="2"/>
+    </Grid>
+</Page>
